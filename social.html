@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>용산구지도서비스</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <style>
+        #map {
+            width: 1000px;
+            height: 700px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+    </style>
+    <link rel="shortcut icon" type="image⁄x-icon" href="https://cdn.pixabay.com/photo/2017/06/30/10/56/icon-2457945_960_720.png">
+
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+var contentArray = [];
+var markers = [];
+var iterator = 0;
+var markerArray = [];
+var map;
+ 
+// infowindow contents 배열
+ contentArray[0] = "두바퀴희망자전거";
+ contentArray[1] = "주식회사 드림트리빌리지";
+ contentArray[2] = "㈜레드스톤시스템";
+ contentArray[3] = "사회복지법인 용산상희원 더좋은세상";
+ contentArray[4] = "㈜상상우리";
+ contentArray[5] = "㈜샤론푸드";
+ contentArray[6] = "㈜성주컴텍";
+ contentArray[7] = "세일링드림㈜";
+ contentArray[8] = "㈜송지";
+ contentArray[9] = "어시스타㈜";
+ contentArray[10] = "예술과마음";
+ contentArray[11] = "㈜오피스메카";
+ contentArray[12] = "㈜인사랑케어";
+ contentArray[13] = "작은혼례운동협동조합";
+    
+// 위경도 배열
+markerArray[0] = new google.maps.LatLng(37.525881, 126.960222);
+markerArray[1] = new google.maps.LatLng(37.527646, 127.000594);
+markerArray[2] = new google.maps.LatLng(37.533565, 126.967639);
+markerArray[3] = new google.maps.LatLng(37.538079, 126.967245);
+markerArray[4] = new google.maps.LatLng(37.551568, 126.972854);
+markerArray[5] = new google.maps.LatLng(37.530443, 126.964451);
+markerArray[6] = new google.maps.LatLng(37.534298, 126.966357);
+markerArray[7] = new google.maps.LatLng(37.550082, 126.982051);
+markerArray[8] = new google.maps.LatLng(37.532404, 126.965247);
+markerArray[9] = new google.maps.LatLng(37.532820, 126.952584);
+markerArray[10] = new google.maps.LatLng(37.542336, 126.960090);
+markerArray[11] = new google.maps.LatLng(37.538863, 126.968652);
+markerArray[12] = new google.maps.LatLng(37.542972, 126.973462);
+markerArray[13] = new google.maps.LatLng(37.534217, 127.005741);
+
+function initialize() {
+    var mapOptions = {
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(37.538140, 126.978942)
+    };
+ 
+    map = new google.maps.Map(document.getElementById('map'),mapOptions);
+ 
+    for (var i = 0; i < markerArray.length; i++) {
+        addMarker();
+    }
+}
+ 
+ 
+// 마커 추가
+function addMarker() {
+ 
+    var marker = new google.maps.Marker({
+        position: markerArray[iterator],
+        map: map,
+    });
+    markers.push(marker);
+ 
+    var infowindow = new google.maps.InfoWindow({
+      content: contentArray[iterator]
+    });
+ 
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
+    iterator++;
+}
+ 
+google.maps.event.addDomListener(window, 'load', initialize);
+//-->
+</SCRIPT>
+<body>
+<div id="map"></div>
+</body>
+</html>

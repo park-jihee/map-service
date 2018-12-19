@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>용산구지도서비스</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <style>
+        #map {
+            width: 1000px;
+            height: 700px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+        .map_toilet h3,p{
+            text-align: center;
+        }
+    </style>
+    <link rel="shortcut icon" type="image⁄x-icon" href="https://cdn.pixabay.com/photo/2017/06/30/10/56/icon-2457945_960_720.png">
+
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+var contentArray = [];
+var markers = [];
+var iterator = 0;
+var markerArray = [];
+var map;
+ 
+// infowindow contents 배열
+ contentArray[0] = "<div class='map_toilet'><h3>이촌로</h3><hr><p>한강로3가 40-900</p></div>";
+ contentArray[1] ="<div class='map_toilet'><h3>철길담장 옆</h3><hr><p>한강로2가 2-341</p></div>";
+ contentArray[2] ="<div class='map_toilet'><h3>이태원1</h3><hr><p>이태원동 34-114</p></div>";
+ contentArray[3] ="<div class='map_toilet'><h3>이태원2</h3><hr><p>이태원동 261-5</p></div>";
+ contentArray[4] ="<div class='map_toilet'><h3>이태원3</h3><hr><p>이태원동 72-47</p></div>";
+ contentArray[5] = "<div class='map_toilet'><h3>후암4</h3><hr><p>후암동 103-9</p></div>";
+ contentArray[6] ="<div class='map_toilet'><h3>모자원</h3><hr><p>용산동2가 1-1598</p></div>";
+ 
+// 위경도 배열
+markerArray[0] = new google.maps.LatLng(37.523158,126.961087);
+markerArray[1] = new google.maps.LatLng(37.531685,126.968651);
+markerArray[2] = new google.maps.LatLng(37.534454,126.988834);
+markerArray[3] = new google.maps.LatLng(37.54306,126.990143);
+markerArray[4] = new google.maps.LatLng(37.534169,126.992371);
+markerArray[5] = new google.maps.LatLng(37.550428,126.976212);
+markerArray[6] = new google.maps.LatLng(37.545499,126.984006);
+
+function initialize() {
+    var mapOptions = {
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(37.539914, 126.978464)
+    };
+ 
+    map = new google.maps.Map(document.getElementById('map'),mapOptions);
+ 
+    for (var i = 0; i < markerArray.length; i++) {
+        addMarker();
+    }
+}
+ 
+ 
+// 마커 추가
+function addMarker() {
+ 
+    var marker = new google.maps.Marker({
+        position: markerArray[iterator],
+        map: map,
+    });
+    markers.push(marker);
+ 
+    var infowindow = new google.maps.InfoWindow({
+      content: contentArray[iterator]
+    });
+ 
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
+    iterator++;
+}
+ 
+google.maps.event.addDomListener(window, 'load', initialize);
+//-->
+</SCRIPT>
+<body>
+<div id="map"></div>
+</body>
+</html>

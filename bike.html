@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>용산구지도서비스</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <style>
+        #map {
+            width: 1000px;
+            height: 700px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+        .map_bike{
+            text-align: center
+        }
+    </style>
+    <link rel="shortcut icon" type="image⁄x-icon" href="https://cdn.pixabay.com/photo/2017/06/30/10/56/icon-2457945_960_720.png">
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+var contentArray = [];
+var markers = [];
+var iterator = 0;
+var markerArray = [];
+var map;
+ 
+// infowindow contents 배열
+ contentArray[0] = "<div class='map_bike'><h3>숙대입구역 10번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[1] = "<div class='map_bike'><h3>숙대입구역 4번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[2] = "<div class='map_bike'><h3>숙대입구역 1번출구</h3><hr><p>보관대 수 : 10</p></div>";
+ contentArray[3] ="<div class='map_bike'><h3>남영역 (건너편)</h3><hr><p>보관대 수 : 35</p></div>";
+ contentArray[4] = "<div class='map_bike'><h3>이촌역앞 1번출구</h3><hr><p>보관대 수 : 10</p></div>";
+ contentArray[5] = "<div class='map_bike'><h3>이촌역 3-1번출구 (건너편)</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[6] = "<div class='map_bike'><h3>이촌역앞 4번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[7] = "<div class='map_bike'><h3>이촌역앞 5번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[8] ="<div class='map_bike'><h3>한남역 1번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[9] ="<div class='map_bike'><h3>한강진역 3번출구</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[10] ="<div class='map_bike'><h3>삼각지역 2번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[11] ="<div class='map_bike'><h3>삼각지역 8번출구</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[12] = "<div class='map_bike'><h3>삼각지역 12번출구</h3><hr><p>보관대 수 : 10</p></div>";
+ contentArray[13] = "<div class='map_bike'><h3>삼각지역 10번출구</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[14] = "<div class='map_bike'><h3>삼각지역 14번출구</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[15] = "<div class='map_bike'><h3>삼각지역 11번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[16] ="<div class='map_bike'><h3>효창공원앞역 3번 출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[17] ="<div class='map_bike'><h3>녹사평역 4번출구</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[18] = "<div class='map_bike'><h3>녹사평역 1번출구</h3><hr><p>보관대 수 : 35</p></div>";
+ contentArray[19] = "<div class='map_bike'><h3>녹사평역 3번출구</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[20] = "<div class='map_bike'><h3>신용산역 2번출구</h3><hr><p>보관대 수 : 10</p></div>";
+ contentArray[21] = "<div class='map_bike'><h3>신용산역 6번출구</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[22] ="<div class='map_bike'><h3>이태원역 2번출구</h3><hr><p>보관대 수 : 6</p></div>"; 
+ contentArray[23] = "<div class='map_bike'><h3>이태원역 3번출구</h3><hr><p>보관대 수 : 2</p></div>";
+ contentArray[24] ="<div class='map_bike'><h3>용산도서관</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[25] ="<div class='map_bike'><h3>남산도서관</h3><hr><p>보관대 수 : 14</p></div>";
+ contentArray[26] = "<div class='map_bike'><h3>후암동버스종점</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[27] = "<div class='map_bike'><h3>문배동체육센터</h3><hr><p>보관대 수 : 10대</p></div>";
+ contentArray[28] ="<div class='map_bike'><h3>효창종합사회복지관</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[29] = "<div class='map_bike'><h3>이촌2동청소년공부방</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[30] = "<div class='map_bike'><h3>서빙고동주민센터옆</h3><hr><p>보관대 수 : 7</p></div>";
+ contentArray[31] = "<div class='map_bike'><h3>용산소방서</h3><hr><p>보관대 수 : 10</p></div>";
+ contentArray[32] = "<div class='map_bike'><h3>청파동주민센터</h3><hr><p>보관대 수 : 5</p></div>";
+ contentArray[33] ="<div class='map_bike'><h3>남영동인권센터</h3><hr><p>보관대 수 : 10</p></div>";
+    
+    
+// 위경도 배열
+markerArray[0] = new google.maps.LatLng(37.545452, 126.97162);
+markerArray[1] = new google.maps.LatLng(37.544761, 126.972277);
+markerArray[2] = new google.maps.LatLng(37.545570, 126.972113);
+markerArray[3] = new google.maps.LatLng(37.540626, 126.971166);
+markerArray[4] = new google.maps.LatLng(37.522789, 126.973383);
+markerArray[5] = new google.maps.LatLng(37.521651, 126.975196);
+markerArray[6] = new google.maps.LatLng(37.522232, 126.973343);
+markerArray[7] = new google.maps.LatLng(37.522540, 126.973390);
+markerArray[8] = new google.maps.LatLng(37.540204, 127.001664);
+markerArray[9] = new google.maps.LatLng(37.540147, 127.001884);
+markerArray[10] = new google.maps.LatLng(37.534176, 126.973042);
+markerArray[11] = new google.maps.LatLng(37.535481, 126.973385);
+markerArray[12] = new google.maps.LatLng(37.535482, 126.974748);
+markerArray[13] = new google.maps.LatLng(37.536311, 126.973920);
+markerArray[14] = new google.maps.LatLng(37.535039, 126.974110);
+markerArray[15] = new google.maps.LatLng(37.535765, 126.974663);
+markerArray[16] = new google.maps.LatLng(37.539064, 126.961608);
+markerArray[17] = new google.maps.LatLng(37.534675, 126.986079);
+markerArray[18] = new google.maps.LatLng(37.535200, 126.986341);
+markerArray[19] = new google.maps.LatLng(37.534457, 126.986807);
+markerArray[20] = new google.maps.LatLng(37.528548, 126.967527);
+markerArray[21] = new google.maps.LatLng(37.530014, 126.968439);
+markerArray[22] = new google.maps.LatLng(37.534594, 126.994304);
+markerArray[23] = new google.maps.LatLng(37.534391, 126.994312);
+markerArray[24] = new google.maps.LatLng(37.552245, 126.980057);
+markerArray[25] = new google.maps.LatLng(37.553121, 126.981468);
+markerArray[26] = new google.maps.LatLng(37.546951, 126.981305);
+markerArray[27] = new google.maps.LatLng(37.537491, 126.967635);
+markerArray[28] = new google.maps.LatLng(37.541667, 126.962912);
+markerArray[29] = new google.maps.LatLng(37.527105, 126.954162);
+markerArray[30] = new google.maps.LatLng(37.520649, 126.994647);
+markerArray[31] = new google.maps.LatLng(37.534364, 126.971467);
+markerArray[32] = new google.maps.LatLng(37.545611, 126.969866);
+markerArray[33] = new google.maps.LatLng(37.541248, 126.971893);
+
+
+function initialize() {
+    var mapOptions = {
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(37.538140, 126.978942)
+    };
+ 
+    map = new google.maps.Map(document.getElementById('map'),mapOptions);
+ 
+    for (var i = 0; i < markerArray.length; i++) {
+        addMarker();
+    }
+}
+ 
+    var image = 'as.png';
+ 
+// 마커 추가
+function addMarker() {
+ 
+    var marker = new google.maps.Marker({
+        position: markerArray[iterator],
+        map: map,
+    });
+    markers.push(marker);
+ 
+    var infowindow = new google.maps.InfoWindow({
+      content: contentArray[iterator]
+    });
+ 
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
+    iterator++;
+}
+ 
+google.maps.event.addDomListener(window, 'load', initialize);
+//-->
+</SCRIPT>
+<body>
+<div id="map"></div>
+</body>
+</html>

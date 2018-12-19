@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>용산구지도서비스</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <style>
+        #map {
+            width: 1000px;
+            height: 700px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+    </style>
+    <link rel="shortcut icon" type="image⁄x-icon" href="https://cdn.pixabay.com/photo/2017/06/30/10/56/icon-2457945_960_720.png">
+
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+var contentArray = [];
+var markers = [];
+var iterator = 0;
+var markerArray = [];
+var map;
+ 
+// infowindow contents 배열
+ contentArray[0] = "무진장";
+ contentArray[1] = "남영해물탕";
+ contentArray[2] = "감베로니";
+ contentArray[3] = "화로가";
+ contentArray[4] = "황소마을";
+ contentArray[5] = "모리모리";
+ contentArray[6] = "풍년갈비";
+ contentArray[7] = "목원갈비";
+ contentArray[8] = "횡성한우목장";
+ contentArray[9] = "청태산";
+ contentArray[10] = "소야돼지야";
+ contentArray[11] = "청운숯불갈비";
+ contentArray[12] = "댓잎갈비";
+ contentArray[13] = "남영골";    
+ contentArray[14] = "대관령목장";
+ 
+// 위경도 배열
+markerArray[0] = new google.maps.LatLng(37.537529, 126.965679);
+markerArray[1] = new google.maps.LatLng(37.542786, 126.973521);
+markerArray[2] = new google.maps.LatLng(37.543184, 126.971979);
+markerArray[3] = new google.maps.LatLng(37.530753, 126.968636);
+markerArray[4] = new google.maps.LatLng(37.534220, 126.992993);
+markerArray[5] = new google.maps.LatLng(37.543581, 126.972163);
+markerArray[6] = new google.maps.LatLng(37.536197, 126.961049);
+markerArray[7] = new google.maps.LatLng(37.541879, 126.973883);
+markerArray[8] = new google.maps.LatLng(37.537785, 126.960882);
+markerArray[9] = new google.maps.LatLng(37.537172, 126.970167);
+markerArray[10] = new google.maps.LatLng(37.539057, 126.991450);
+markerArray[11] = new google.maps.LatLng(37.554285, 126.968430);
+markerArray[12] = new google.maps.LatLng(37.525055, 127.001596);
+markerArray[13] = new google.maps.LatLng(37.542321, 126.972160);
+markerArray[14] = new google.maps.LatLng(37.544126, 126.971747);
+
+
+function initialize() {
+    var mapOptions = {
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(37.538140, 126.978942)
+    };
+ 
+    map = new google.maps.Map(document.getElementById('map'),mapOptions);
+ 
+    for (var i = 0; i < markerArray.length; i++) {
+        addMarker();
+    }
+}
+ 
+ 
+// 마커 추가
+function addMarker() {
+ 
+    var marker = new google.maps.Marker({
+        position: markerArray[iterator],
+        map: map,
+    });
+    markers.push(marker);
+ 
+    var infowindow = new google.maps.InfoWindow({
+      content: contentArray[iterator]
+    });
+ 
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
+    iterator++;
+}
+ 
+google.maps.event.addDomListener(window, 'load', initialize);
+//-->
+</SCRIPT>
+<body>
+<div id="map"></div>
+</body>
+</html>

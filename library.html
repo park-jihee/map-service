@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>용산구지도서비스</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <style>
+        #map {
+            width: 1000px;
+            height: 700px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+        .map_book h3,p{
+        text-align: center;
+        }
+    </style>    
+    <link rel="shortcut icon" type="image⁄x-icon" href="https://cdn.pixabay.com/photo/2017/06/30/10/56/icon-2457945_960_720.png">
+
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+var contentArray = [];
+var markers = [];
+var iterator = 0;
+var markerArray = [];
+var map;
+ 
+// infowindow contents 배열
+ contentArray[0] = "<div class='map_book'><h3>북카페청마루</h3><hr><p>9:00 ~ 19:00</p></div>";
+ contentArray[1] = "<div class='map_book'><h3>후암동 북앤캠프</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[2] = "<div class='map_book'><h3>용산2가동 새마을문고</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[3] ="<div class='map_book'><h3>남영동 독서사랑문고</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[4] ="<div class='map_book'><h3>원효2동 북카페 두드림</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[5] = "<div class='map_book'><h3>효창독서마당</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[6] ="<div class='map_book'><h3>용문문고</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[7] = "<div class='map_book'><h3>청파 어린이 영어도서관</h3><hr><p>10:00 ~ 19:00</p></div>";
+ contentArray[8] ="<div class='map_book'><h3>나루이촌북카페</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[9] = "<div class='map_book'><h3>이태원2동 새마을문고</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[10] = "<div class='map_book'><h3>서빙고동 북카페 자유다</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[11] ="<div class='map_book'><h3>보광동 꿈꾸는 책마을</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[12] = "<div class='map_book'><h3>청소년북카페 푸르미르</h3><hr><p>10:00 ~ 18:00</p></div>";
+ contentArray[13] = "<div class='map_book'><h3>백합어린이도서관</h3><hr><p>10:00 ~ 17:00</p></div>";
+ contentArray[14] = "<div class='map_book'><h3>단꿈작은도서관</h3><hr><p>10:00 ~ 20:30</p></div>";
+ contentArray[15] = "<div class='map_book'><h3>햇빛꿈이있는도서관</h3><hr><p>9:00 ~ 21:00</p></div>";
+ contentArray[16] = "<div class='map_book'><h3>다시서기문고</h3><hr><p>9:00 ~ 18:00</p></div>";
+ contentArray[17] = "<div class='map_book'><h3>효창사랑 작은도서관</h3><hr><p>9:00 ~ 17:00</p></div>";
+ contentArray[18] = "<div class='map_book'><h3>고래이야기</h3><hr><p>10:00 ~ 18:00</p></div>";
+ contentArray[19] = "<div class='map_book'><h3>서울비전문고</h3><hr><p>9:30 ~ 18:00</p></div>";
+ contentArray[20] = "<div class='map_book'><h3>용암 어린이 영어도서관</h3><hr><p>10:00 ~ 19:00</p></div>";
+ 
+// 위경도 배열
+markerArray[0] = new google.maps.LatLng(37.532675, 126.990317);
+markerArray[1] = new google.maps.LatLng(37.548931, 126.978160);
+markerArray[2] = new google.maps.LatLng(37.546351, 126.985488);
+markerArray[3] = new google.maps.LatLng(37.545947, 126.973085);
+markerArray[4] = new google.maps.LatLng(37.534572, 126.951529);
+markerArray[5] = new google.maps.LatLng(37.542693, 126.961794);
+markerArray[6] = new google.maps.LatLng(37.539205, 126.957518);
+markerArray[7] = new google.maps.LatLng(37.545752, 126.968488);
+markerArray[8] = new google.maps.LatLng(37.526515, 126.954657);
+markerArray[9] = new google.maps.LatLng(37.542140, 126.990093);
+markerArray[10] = new google.maps.LatLng(37.520732, 126.994639);
+markerArray[11] = new google.maps.LatLng(37.526550, 127.000115);
+markerArray[12] = new google.maps.LatLng(37.521437, 126.973246);
+markerArray[13] = new google.maps.LatLng(37.548974, 126.976799);
+markerArray[14] = new google.maps.LatLng(37.547218, 126.975688);
+markerArray[15] = new google.maps.LatLng(37.548275, 126.965559);
+markerArray[16] = new google.maps.LatLng(37.545896, 126.972507);
+markerArray[17] = new google.maps.LatLng(37.542532, 126.962606);
+markerArray[18] = new google.maps.LatLng(37.542247, 126.961826);
+markerArray[19] = new google.maps.LatLng(37.538374, 126.963865);
+markerArray[20] = new google.maps.LatLng(37.541159, 126.984700);
+
+function initialize() {
+    var mapOptions = {
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(37.536149, 126.974325)
+    };
+ 
+    map = new google.maps.Map(document.getElementById('map'),mapOptions);
+ 
+    for (var i = 0; i < markerArray.length; i++) {
+        addMarker();
+    }
+}
+ 
+ 
+// 마커 추가
+function addMarker() {
+ 
+    var marker = new google.maps.Marker({
+        position: markerArray[iterator],
+        map: map,
+    });
+    markers.push(marker);
+ 
+    var infowindow = new google.maps.InfoWindow({
+      content: contentArray[iterator]
+    });
+ 
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
+    iterator++;
+}
+ 
+google.maps.event.addDomListener(window, 'load', initialize);
+//-->
+</SCRIPT>
+<body>
+<div id="map"></div>
+</body>
+</html>
